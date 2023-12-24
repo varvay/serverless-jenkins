@@ -30,3 +30,9 @@ module "iam" {
   environment = local.environment
   product     = local.product
 }
+
+module "vpc" {
+  source      = "./modules/vpc"
+  environment = local.environment
+  product     = local.product
+}
