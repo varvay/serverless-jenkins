@@ -36,5 +36,5 @@ resource "aws_iam_user" "iam_user_admin" {
 resource "aws_iam_group_membership" "iam_group_membership_admin" {
   name  = "group-membership-admin"
   group = aws_iam_group.iam_group_admin.name
-  users = [aws_iam_user.iam_user_varidVayaYusuf.name]
+  users = [aws_iam_user.iam_user_admin.name]
 }
