@@ -26,4 +26,5 @@ resource "aws_instance" "instance_master" {
   })
   subnet_id = var.subnet.id
   security_groups = [ var.security_group.id ]
+  user_data = filebase64("${path.module}/userData/jenkins-install.sh")
 }
