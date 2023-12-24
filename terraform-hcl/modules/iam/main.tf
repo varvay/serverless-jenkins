@@ -25,8 +25,8 @@ resource "aws_iam_group_policy_attachment" "iam_group_admin_policy_aws_managed_p
 }
 
 # User
-resource "aws_iam_user" "iam_user_varidVayaYusuf" {
-  name          = "varid.vaya.yusuf"
+resource "aws_iam_user" "iam_user_admin" {
+  name          = "serverlessjenkins.admin"
   path          = "/${var.product}/${var.environment}/"
   force_destroy = true
   tags          = local.tags
@@ -36,5 +36,5 @@ resource "aws_iam_user" "iam_user_varidVayaYusuf" {
 resource "aws_iam_group_membership" "iam_group_membership_admin" {
   name  = "group-membership-admin"
   group = aws_iam_group.iam_group_admin.name
-  users = [aws_iam_user.iam_user_varidVayaYusuf.name]
+  users = [aws_iam_user.iam_user_admin.name]
 }
