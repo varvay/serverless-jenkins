@@ -13,7 +13,7 @@ locals {
 resource "aws_instance" "instance_master" {
   associate_public_ip_address = true
   ebs_optimized               = false
-  hibernation                 = true
+  hibernation                 = false
   ami                         = "ami-079db87dc4c10ac91"
   instance_type               = "t2.micro"
   key_name                    = "serverless-jenkins-dev-master"
