@@ -13,7 +13,9 @@ resource "aws_vpc" "vpc" {
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags                 = local.tags
+  tags                 = merge(local.tags, {
+    Name = "${var.product}-${var.environment}"
+  })
 }
 
 resource "aws_subnet" "subnets" {
