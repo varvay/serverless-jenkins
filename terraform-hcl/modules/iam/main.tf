@@ -14,7 +14,7 @@ data "aws_iam_policy" "aws_managed_policy_AdministratorAccess" {
 
 # User groups
 resource "aws_iam_group" "iam_group_admin" {
-  name = "admin"
+  name = "serverlessjenkins.admin"
   path = "/${var.product}/${var.environment}/"
 }
 
