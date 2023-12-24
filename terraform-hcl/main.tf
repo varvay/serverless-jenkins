@@ -36,3 +36,11 @@ module "vpc" {
   environment = local.environment
   product     = local.product
 }
+
+module "jenkins" {
+  source         = "./modules/jenkins"
+  environment    = local.environment
+  product        = local.product
+  subnet         = module.vpc.subnet
+  security_group = module.vpc.security_group
+}

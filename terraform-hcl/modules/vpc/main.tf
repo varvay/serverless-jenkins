@@ -3,9 +3,6 @@ locals {
     "Product"     = var.product
     "Environment" = var.environment
   }
-  subnets = {
-    us-east-1a = "10.0.0.0/28"
-  }
 }
 
 resource "aws_vpc" "vpc" {
@@ -13,26 +10,25 @@ resource "aws_vpc" "vpc" {
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags                 = merge(local.tags, {
+  tags = merge(local.tags, {
     Name = "${var.product}-${var.environment}"
   })
 }
 
-resource "aws_subnet" "subnets" {
-  for_each                = local.subnets
-  availability_zone       = each.key
-  cidr_block              = each.value
+resource "aws_subnet" "subnet" {
+  availability_zone       = "us-east-1a"
+  cidr_block              = "10.0.0.0/28"
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.vpc.id
-  tags                    = merge(local.tags, {
-    Name = "${var.product}-${var.environment}-${each.key}"
+  tags = merge(local.tags, {
+    Name = "${var.product}-${var.environment}-us-east-1a"
   })
 }
 
 resource "aws_security_group" "security_group" {
   name_prefix = "${var.product}-${var.environment}-"
   vpc_id      = aws_vpc.vpc.id
-  tags        = merge(local.tags, {
+  tags = merge(local.tags, {
     Name = "${var.product}-${var.environment}"
   })
 }
@@ -57,7 +53,7 @@ resource "aws_security_group_rule" "security_group_rule_egress_allow_all" {
 
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
-  tags   = merge(local.tags, {
+  tags = merge(local.tags, {
     Name = "${var.product}-${var.environment}"
   })
 }
@@ -77,8 +73,8 @@ output "vpc" {
   value = aws_vpc.vpc
 }
 
-output "subnets" {
-  value = [for subnet in aws_subnet.subnets : subnet]
+output "subnet" {
+  value = aws_subnet.subnet
 }
 
 output "security_group" {

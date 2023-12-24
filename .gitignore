@@ -35,3 +35,4 @@ terraform.rc
 
 # misc
 .DS_Store
+ssh-key
