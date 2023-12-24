@@ -24,13 +24,17 @@ resource "aws_subnet" "subnets" {
   cidr_block              = each.value
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.vpc.id
-  tags                    = local.tags
+  tags                    = merge(local.tags, {
+    Name = "${var.product}-${var.environment}-${each.key}"
+  })
 }
 
 resource "aws_security_group" "security_group" {
   name_prefix = "${var.product}-${var.environment}-"
   vpc_id      = aws_vpc.vpc.id
-  tags        = local.tags
+  tags        = merge(local.tags, {
+    Name = "${var.product}-${var.environment}"
+  })
 }
 
 resource "aws_security_group_rule" "security_group_rule_ingress_allow_all" {
@@ -53,7 +57,9 @@ resource "aws_security_group_rule" "security_group_rule_egress_allow_all" {
 
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
-  tags   = local.tags
+  tags   = merge(local.tags, {
+    Name = "${var.product}-${var.environment}"
+  })
 }
 
 resource "aws_default_route_table" "default_route_table" {
@@ -62,7 +68,9 @@ resource "aws_default_route_table" "default_route_table" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.internet_gateway.id
   }
-  tags = local.tags
+  tags = merge(local.tags, {
+    Name = "${var.product}-${var.environment}-default"
+  })
 }
 
 output "vpc" {
